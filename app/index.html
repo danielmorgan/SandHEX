@@ -17,7 +17,7 @@
 		<!-- endbuild -->
 		<!-- build:css(.tmp) styles/main.css -->
 		<link rel="stylesheet" href="styles/styles.css">
-		<link rel="stylesheet" href="bower_components/leaflet/leaflet.css">
+		<link rel="stylesheet" href="bower_components/leaflet-dist/leaflet.css">
 		<!-- endbuild -->
 		<script src="bower_components/modernizr/modernizr.js"></script>
 
@@ -45,7 +45,7 @@
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul class="nav navbar-nav">
-							<li>{{#link-to 'tiles'}}Home{{/link-to}}</li>
+							<li>{{#link-to 'tiles'}}Map{{/link-to}}</li>
 							<li>{{#link-to 'about'}}About{{/link-to}}</li>
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
@@ -87,8 +87,8 @@
 			<div class="container-fluid fill">
 
 				<div class="row-fluid fill">
-					<div id="map" class="col-sm-8 fill affix" data-spy="affix">
-						map
+					<div class="col-sm-8 fill affix nopadding" data-spy="affix">
+						{{outlet main}}
 					</div>
 					<div id="sidebar" class="col-sm-4 col-sm-offset-8 fill">
 						{{outlet sidebar}}
@@ -99,22 +99,25 @@
 
 		</script>
 
-
 		<script type="text/x-handlebars" data-template-name="tiles">
+			{{input type="text" id="new-tile" placeholder="Terrain" value=terrain action="createTile"}}
+
 			{{#each}}
 				<dl>
 					<dt>ID</dt><dd>{{id}}</dd>
-					<dt>Type</dt><dd>{{type}}</dd>
+					<dt>Terrain</dt><dd>{{terrain}}</dd>
 					<dt>Visited?</dt><dd>{{isVisited}}</dd>
 					<dt>Explored?</dt><dd>{{isExplored}}</dd>
+					<dt>Coords</dt><dd>{{x}},{{y}}</dd>
 				</dl>
 			{{else}}
 				<p>No Tiles found.</p>
 			{{/each}}
-
-			{{input type="text" id="new-tile" placeholder="Forest, mountain, desert?" value=newTitle action="createTile"}}
 		</script>
 
+		<script type="text/x-handlebars" data-template-name="map">
+			<div id="map"></div>
+		</script>
 
 		<!-- build:js scripts/vendor.js -->
 		<!-- bower:js -->
@@ -141,8 +144,7 @@
 		<script src="bower_components/handlebars/handlebars.js"></script>
 		<script src="bower_components/ember/ember.js"></script>
 		<script src="bower_components/ember-data/ember-data.js"></script>
-		<script src="bower_components/leaflet/leaflet.js"></script>
-		<script src="bower_components/ember-leaflet/ember-leaflet.js"></script>
+		<script src="bower_components/leaflet-dist/leaflet.js"></script>
 		<!-- end frameworks -->
 
 		<!-- build:js({app,.tmp}) scripts/main.js -->
@@ -150,6 +152,8 @@
 		<script src="scripts/router.js"></script>
 		<script src="scripts/models/tile.js"></script>
 		<script src="scripts/controllers/tiles_controller.js"></script>
+		<script src="scripts/controllers/map_controller.js"></script>
+		<script src="scripts/views/map_view.js"></script>
 		<!-- endbuild -->
 </body>
 </html>

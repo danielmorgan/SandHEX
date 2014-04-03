@@ -1,56 +1,74 @@
 SandHEX.Tile = DS.Model.extend({
-	type: DS.attr('string'),
+	terrain: DS.attr('string'),
 	isVisited: DS.attr('boolean'),
-	isExplored: DS.attr('boolean')
+	isExplored: DS.attr('boolean'),
+	x: DS.attr('number'),
+	y: DS.attr('number')
 });
 
 SandHEX.Tile.FIXTURES = [
 	{
 		id: 1,
-		type: 'forest',
+		terrain: 'forest',
 		isVisited: true,
-		isExplored: true
+		isExplored: true,
+		x: 0,
+		y: 0
 	},
 	{
 		id: 2,
-		type: 'river',
+		terrain: 'river',
 		isVisited: true,
-		isExplored: true
+		isExplored: true,
+		x: 1,
+		y: 0
 	},
 	{
 		id: 3,
-		type: 'river',
+		terrain: 'river',
 		isVisited: true,
-		isExplored: false
+		isExplored: false,
+		x: 1,
+		y: 1
 	},
 	{
 		id: 4,
-		type: 'river',
+		terrain: 'river',
 		isVisited: true,
-		isExplored: false
+		isExplored: false,
+		x: 2,
+		y: 1
 	},
 	{
 		id: 5,
-		type: 'mountain',
+		terrain: 'mountain',
 		isVisited: false,
-		isExplored: false
+		isExplored: false,
+		x: 2,
+		y: 2
 	},
 	{
 		id: 6,
-		type: 'desert',
+		terrain: 'desert',
 		isVisited: false,
-		isExplored: false
+		isExplored: false,
+		x: 2,
+		y: 3
 	},
 	{
 		id: 7,
-		type: 'hills',
+		terrain: 'hills',
 		isVisited: false,
-		isExplored: false
+		isExplored: false,
+		x: 3,
+		y: 2
 	},
 	{
 		id: 8,
-		type: 'marsh',
+		terrain: 'marsh',
 		isVisited: false,
-		isExplored: false
+		isExplored: false,
+		x: 3,
+		y: 4
 	}
 ];
