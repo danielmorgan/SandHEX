@@ -3,7 +3,7 @@ SandHEX.TilesView = Ember.View.extend({
 
 	didInsertElement: function () {
 		var controller = this.get("controller")
-		controller.send("loadTiles");
+		controller.send("onDidInsertElement");
 	}
 
 });

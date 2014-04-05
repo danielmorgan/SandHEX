@@ -100,7 +100,13 @@
 		</script>
 
 		<script type="text/x-handlebars" data-template-name="tiles">
-			{{input type="text" id="new-tile" placeholder="Terrain" value=terrain action="createTile"}}
+			<button {{action moveNW}}><i class="icon-arrow-up-left"></i></button>
+			<button {{action moveN}}><i class="icon-arrow-up"></i></button>
+			<button {{action moveNE}}><i class="icon-arrow-up-right"></i></button>
+			<br /><!-- gasp! -->
+			<button {{action moveSW}}><i class="icon-arrow-down-left"></i></button>
+			<button {{action moveS}}><i class="icon-arrow-down"></i></button>
+			<button {{action moveSE}}><i class="icon-arrow-down-right"></i></button>
 
 			{{#each}}
 				<dl>

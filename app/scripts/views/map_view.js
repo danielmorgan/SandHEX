@@ -4,7 +4,7 @@ SandHEX.MapView = Ember.View.extend({
 
 	didInsertElement: function () {
 		var controller = this.get("controller")
-		controller.send("createMap");
+		controller.send("insertMap");
 	}
 
 });

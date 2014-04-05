@@ -1,6 +1,7 @@
 $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 
 @import "sass-bootstrap/lib/bootstrap";
+@import "fonts";
 
 * { box-sizing: border-box; }
 html,body {
@@ -16,7 +17,7 @@ nav.navbar-default {
 }
 
 #sidebar {
-	background: #ddd;
+	background: #eee;
 	border-left: 1px solid #888;
 	@include box-shadow(-1px 0 5px rgba(0, 0, 0, 0.25));
 }
