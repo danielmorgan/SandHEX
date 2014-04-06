@@ -87,7 +87,7 @@
 			<div class="container-fluid fill">
 
 				<div class="row-fluid fill">
-					<div class="col-sm-8 fill affix nopadding" data-spy="affix">
+					<div class="col-sm-8 fill affix nopadding class="value"ing" data-spy="affix">
 						{{outlet main}}
 					</div>
 					<div id="sidebar" class="col-sm-4 col-sm-offset-8 fill">
@@ -100,22 +100,25 @@
 		</script>
 
 		<script type="text/x-handlebars" data-template-name="tiles">
-			<button class="btn btn-primary btn-lg" {{action moveNW}}><i class="icon-arrow-up-left"></i></button>
-			<button class="btn btn-primary btn-lg" {{action moveN}}><i class="icon-arrow-up"></i></button>
-			<button class="btn btn-primary btn-lg" {{action moveNE}}><i class="icon-arrow-up-right"></i></button>
-			<br /><!-- gasp! -->
-			<button class="btn btn-primary btn-lg" {{action moveSW}}><i class="icon-arrow-down-left"></i></button>
-			<button class="btn btn-primary btn-lg" {{action moveS}}><i class="icon-arrow-down"></i></button>
-			<button class="btn btn-primary btn-lg" {{action moveSE}}><i class="icon-arrow-down-right"></i></button>
+			<div id="tempControls">
+				<button class="btn btn-primary btn-lg" {{action moveNW target="controllers.player"}}><i class="icon-arrow-up-left"></i></button>
+				<button class="btn btn-primary btn-lg" {{action moveN target="controllers.player"}}><i class="icon-arrow-up"></i></button>
+				<button class="btn btn-primary btn-lg" {{action moveNE target="controllers.player"}}><i class="icon-arrow-up-right"></i></button>
+				<br /><!-- gasp! -->
+				<button class="btn btn-primary btn-lg" {{action moveSW target="controllers.player"}}><i class="icon-arrow-down-left"></i></button>
+				<button class="btn btn-primary btn-lg" {{action moveS target="controllers.player"}}><i class="icon-arrow-down"></i></button>
+				<button class="btn btn-primary btn-lg" {{action moveSE target="controllers.player"}}><i class="icon-arrow-down-right"></i></button>
+			</div>
 
 			{{#each}}
-				<dl>
-					<dt>ID</dt><dd>{{id}}</dd>
-					<dt>Terrain</dt><dd>{{terrain}}</dd>
-					<dt>Visited?</dt><dd>{{isVisited}}</dd>
-					<dt>Explored?</dt><dd>{{isExplored}}</dd>
-					<dt>Coords</dt><dd>{{q}},{{r}}</dd>
-				</dl>
+				<table>
+					<tr><td class="key">ID</td><td class="value">{{id}}</td></tr>
+					<tr><td class="key">Terrain</td><td class="value">{{terrain}}</td></tr>
+					<tr><td class="key">Visible?</td><td class="value">{{is_visible}}</td></tr>
+					<tr><td class="key">Visited?</td><td class="value">{{is_visited}}</td></tr>
+					<tr><td class="key">Explored?</td><td class="value">{{is_explored}}</td></tr>
+					<tr><td class="key">Coords</td><td class="value">{{q}},{{r}}</td></tr>
+				</table>
 			{{else}}
 				<p>No Tiles found.</p>
 			{{/each}}
@@ -157,11 +160,11 @@
 		<script src="scripts/app.js"></script>
 		<script src="scripts/router.js"></script>
 		<script src="scripts/models/tile.js"></script>
-		<script src="scripts/controllers/tiles_controller.js"></script>
 		<script src="scripts/controllers/map_controller.js"></script>
-		<script src="scripts/controllers/hex_controller.js"></script>
+		<script src="scripts/controllers/tiles_controller.js"></script>
 		<script src="scripts/controllers/grid_controller.js"></script>
-		<script src="scripts/controllers/cube_controller.js"></script>
+		<script src="scripts/controllers/hex_controller.js"></script>
+		<script src="scripts/controllers/player_controller.js"></script>
 		<script src="scripts/views/map_view.js"></script>
 		<script src="scripts/views/tiles_view.js"></script>
 		<!-- endbuild -->

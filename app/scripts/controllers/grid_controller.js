@@ -1,5 +1,5 @@
-SandHEX.GridController = Ember.ArrayController.extend({
-	needs: ['tiles', 'hex', 'map', 'cube'],
+SandHEX.GridController = Ember.ObjectController.extend({
+	needs: ['tiles', 'hex', 'map'],
 
 	createLayer: function() {
 		this.Layer = L.geoJson([], {

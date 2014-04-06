@@ -33,3 +33,21 @@ nav.navbar-default {
 .nopadding {
 	padding: 0;
 }
+
+table {
+	font-size: 12px;
+	float: left;
+	margin: 5px;
+	padding: 5px;
+	background: #ddd;
+}
+
+td {
+	padding: 0 5px;
+	min-width: 60px;
+}
+
+td.key { font-weight: bold; }
+td.value { text-align: right; }
+
+#tempControls { text-align: center; padding: 20px 0; }
