@@ -1,5 +1,3 @@
-L_PREFER_CANVAS = true;
-
 SandHEX.Router.map(function() {
 	this.route('about');
 	this.resource('tiles', { path: '/' });

@@ -1,4 +1,4 @@
-SandHEX.MapController = Ember.Controller.extend({
+SandHEX.MapController = Ember.ObjectController.extend({
 	zoomLevel: 5,
 	actions: {
 		insertMap: function() {
@@ -7,14 +7,13 @@ SandHEX.MapController = Ember.Controller.extend({
 	},
 
 	createMap: function() {
-		var map = L.map('map', {
+		this.Map = L.map('map', {
 			center: [0,0],
 			zoom: this.zoomLevel,
 			minZoom: 3,
 			maxZoom: 7,
 			crs: L.CRS.Simple
 		});
-		SandHEX.map = map;
 	}
 
 });

@@ -12,14 +12,12 @@ body {
 }
 
 nav.navbar-default {
-	border-bottom: 1px solid #888;
-	@include box-shadow(0 1px 5px rgba(0, 0, 0, 0.25));
+	border-bottom: 1px solid #bbb;
 }
 
 #sidebar {
 	background: #eee;
-	border-left: 1px solid #888;
-	@include box-shadow(-1px 0 5px rgba(0, 0, 0, 0.25));
+	border-left: 1px solid #bbb;
 }
 
 #map {

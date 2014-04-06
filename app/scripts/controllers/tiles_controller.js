@@ -1,9 +1,13 @@
 SandHEX.TilesController = Ember.ArrayController.extend({
-	hexSize: 1,
+	partyLocation: [0,0],
+	needs: ['hex', 'grid', 'map'],
+
 	actions: {
 		onDidInsertElement: function() {
-			this.initGrid();
+			this.get('controllers.grid').createLayer();
+
 			this.loadTilesFromStore();
+			this.loadParty();
 		},
 		moveNW: function() { this.move(-1,0); },
 		moveN: function() { this.move(0,1); },
@@ -13,108 +17,58 @@ SandHEX.TilesController = Ember.ArrayController.extend({
 		moveSE: function() { this.move(1,-1); }
 	},
 
-	initGrid: function() {
-		var hexGrid = [];
-		SandHEX.gridLayer = L.geoJson(hexGrid, {
-			style: {
-				fillColor: "#fff",
-				fillOpacity: 0.25,
-				color: '#444',
-				weight: 2,
-				opacity: 1
-			},
-			onEachFeature: this.popUp
-		}).addTo(SandHEX.map);
+	loadParty: function() {
+		this.partyMarker = new L.marker(this.partyLocation);
+		this.get('controllers.map.Map').addLayer(this.partyMarker);
 	},
 
 	loadTilesFromStore: function() {
 		var tiles = this.store.all('tile');
-		var squareCoords = [];
+		var hexCoords = [];
 		for (i = 0; i < tiles.content.length; i++) {
 			var tile = tiles.content[i];
-			var array = {
+			hexCoords.push({
 				'id': tile.get('id'),
-				'x': tile.get('x'),
-				'y': tile.get('y')
-			};
-			squareCoords.push(array);
+				'q': tile.get('q'),
+				'r': tile.get('r')
+			});
 		}
-		var hexCoords = this.convertSquareCoordsToHexCoords(squareCoords);
-		this.addTilesToGrid(hexCoords);
+		var mapCoords = this.get('controllers.grid').hexCoordsToMapCoords(hexCoords);
+		this.get('controllers.grid').addTilesToGrid(mapCoords);
 	},
 
-	move: function(x, y) {
-		this.addTile([x,y]);
+	move: function(q, r) {
+		new_q = this.partyLocation[0] + q;
+		new_r = this.partyLocation[1] + r;
+		this.partyLocation = [new_q, new_r];
+
+		var hexCoords = [];
+		hexCoords.push({
+			'id': null,
+			'q': new_q,
+			'r': new_r
+		});
+		var mapCoords = this.get('controllers.grid').hexCoordsToMapCoords(hexCoords);
+		this.partyMarker.setLatLng([mapCoords[0]['lon'], mapCoords[0]['lat']]);
+
+		this.addTile([new_q, new_r]);
 	},
 
-	addTile: function(squareCoord) {
+	addTile: function(hexCoord) {
 		var tile = this.store.createRecord('tile', {
 			terrain: 'forest',
 			isVisited: false,
 			isExplored: false,
-			x: squareCoord[0],
-			y: squareCoord[1]
+			x: hexCoord[0],
+			z: hexCoord[1]
 		});
 		var array = {
 			'id': tile['id'],
-			'x': squareCoord[0],
-			'y': squareCoord[1]
+			'q': hexCoord[0],
+			'r': hexCoord[1]
 		};
-		var hexCoords = this.convertSquareCoordsToHexCoords([array]);
-		this.addTilesToGrid(hexCoords);
-	},
-
-	addTilesToGrid: function(hexCoords) {
-		var newTiles = [];
-		for (var i = 0; i < hexCoords.length; i++) {
-			newTiles.push(this.createHex([hexCoords[i]['q'], hexCoords[i]['r']], this.hexSize, hexCoords[i]['id']));
-		}
-		SandHEX.gridLayer.addData(newTiles);
-	},
-
-	createHex: function(center, size, id) {
-		coordinates = [];
-		for(var i = 0; i < 6; i++){
-			angle = 2 * Math.PI / 6 * i;
-			x_i = center[0] + size * Math.cos(angle);
-			y_i = center[1] + size * Math.sin(angle);
-			coordinates.push([x_i, y_i])
-		}
-		coordinates.push(coordinates[0]);
-		return {
-			'type':'Feature',
-			'geometry':{
-				'type': 'Polygon',
-				'coordinates': [coordinates]
-			},
-			'properties': {
-				'id': id
-			}
-		}
-	},
-
-	convertSquareCoordsToHexCoords: function(squareCoords) {
-		var hexCoords = [];
-		var width = this.hexSize * 2;
-		var height = Math.sqrt(3)/2 * width;
-		var horiz = 3/4 * width;
-		var vert = height;
-		for (var i = 0; i < squareCoords.length; i++) {
-			if (squareCoords[i]['x'] % 2 != 0) {
-				var offset = 1/2 * vert;
-			} else {
-				var offset = 0;
-			}
-			var q = (squareCoords[i]['x'] * horiz);
-			var r = (squareCoords[i]['y'] * vert) + offset;
-			var array = {
-				'id': squareCoords[i]['id'],
-				'q': q,
-				'r': r
-			};
-			hexCoords.push(array);
-		}
-		return hexCoords;
+		var mapCoords = this.get('controllers.grid').hexCoordsToMapCoords([array]);
+		this.get('controllers.grid').addTilesToGrid(mapCoords);
 	},
 
 	popUp: function (feature, layer) {

@@ -100,13 +100,13 @@
 		</script>
 
 		<script type="text/x-handlebars" data-template-name="tiles">
-			<button {{action moveNW}}><i class="icon-arrow-up-left"></i></button>
-			<button {{action moveN}}><i class="icon-arrow-up"></i></button>
-			<button {{action moveNE}}><i class="icon-arrow-up-right"></i></button>
+			<button class="btn btn-primary btn-lg" {{action moveNW}}><i class="icon-arrow-up-left"></i></button>
+			<button class="btn btn-primary btn-lg" {{action moveN}}><i class="icon-arrow-up"></i></button>
+			<button class="btn btn-primary btn-lg" {{action moveNE}}><i class="icon-arrow-up-right"></i></button>
 			<br /><!-- gasp! -->
-			<button {{action moveSW}}><i class="icon-arrow-down-left"></i></button>
-			<button {{action moveS}}><i class="icon-arrow-down"></i></button>
-			<button {{action moveSE}}><i class="icon-arrow-down-right"></i></button>
+			<button class="btn btn-primary btn-lg" {{action moveSW}}><i class="icon-arrow-down-left"></i></button>
+			<button class="btn btn-primary btn-lg" {{action moveS}}><i class="icon-arrow-down"></i></button>
+			<button class="btn btn-primary btn-lg" {{action moveSE}}><i class="icon-arrow-down-right"></i></button>
 
 			{{#each}}
 				<dl>
@@ -114,7 +114,7 @@
 					<dt>Terrain</dt><dd>{{terrain}}</dd>
 					<dt>Visited?</dt><dd>{{isVisited}}</dd>
 					<dt>Explored?</dt><dd>{{isExplored}}</dd>
-					<dt>Coords</dt><dd>{{x}},{{y}}</dd>
+					<dt>Coords</dt><dd>{{q}},{{r}}</dd>
 				</dl>
 			{{else}}
 				<p>No Tiles found.</p>
@@ -157,8 +157,11 @@
 		<script src="scripts/app.js"></script>
 		<script src="scripts/router.js"></script>
 		<script src="scripts/models/tile.js"></script>
-		<script src="scripts/controllers/map_controller.js"></script>
 		<script src="scripts/controllers/tiles_controller.js"></script>
+		<script src="scripts/controllers/map_controller.js"></script>
+		<script src="scripts/controllers/hex_controller.js"></script>
+		<script src="scripts/controllers/grid_controller.js"></script>
+		<script src="scripts/controllers/cube_controller.js"></script>
 		<script src="scripts/views/map_view.js"></script>
 		<script src="scripts/views/tiles_view.js"></script>
 		<!-- endbuild -->
