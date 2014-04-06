@@ -1,10 +1,6 @@
-SandHEX = Ember.Application.create({
-	LOG_TRANSITIONS: true
-});
+SandHEX = Ember.Application.create();
 
-SandHEX.ApplicationAdapter = DS.FixtureAdapter.extend();
-
-SandHEX.store = DS.Store.create({
-	revision: 12,
-	adapter: 'DS.fixtureAdapter'
+SandHEX.ApplicationSerializer = DS.LSSerializer.extend();
+SandHEX.ApplicationAdapter = DS.LSAdapter.extend({
+	namespace: 'SandHEX.Save'
 });

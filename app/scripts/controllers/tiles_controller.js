@@ -33,6 +33,7 @@ SandHEX.TilesController = Ember.ArrayController.extend({
 			q: hexCoord[0],
 			r: hexCoord[1]
 		});
+		tile.save();
 		var array = {
 			'id': tile['id'],
 			'q': hexCoord[0],
@@ -43,8 +44,12 @@ SandHEX.TilesController = Ember.ArrayController.extend({
 	},
 
 	tileExistsAt: function(q, r) {
-		// Check the store to see if a tile already exists at this location
-		return false;
+		var tilesAtPoint = this.filterBy('q', q).filterBy('r', r);
+		if (tilesAtPoint.length > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 });
