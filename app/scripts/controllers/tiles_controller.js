@@ -51,10 +51,10 @@ SandHEX.TilesController = Ember.ArrayController.extend({
 		var mapCoords = this.get('controllers.grid').hexCoordsToMapCoords(hexCoords);
 		this.partyMarker.setLatLng([mapCoords[0]['lon'], mapCoords[0]['lat']]);
 
-		this.addTile([new_q, new_r]);
+		this.newTile([new_q, new_r]);
 	},
 
-	addTile: function(hexCoord) {
+	newTile: function(hexCoord) {
 		var tile = this.store.createRecord('tile', {
 			terrain: 'forest',
 			isVisited: false,
@@ -69,14 +69,6 @@ SandHEX.TilesController = Ember.ArrayController.extend({
 		};
 		var mapCoords = this.get('controllers.grid').hexCoordsToMapCoords([array]);
 		this.get('controllers.grid').addTilesToGrid(mapCoords);
-	},
-
-	popUp: function (feature, layer) {
-		var popupContent;
-		if (feature.properties.id) {
-			popupContent = feature.properties.id;
-		}
-		layer.bindPopup(popupContent);
 	}
 
 });

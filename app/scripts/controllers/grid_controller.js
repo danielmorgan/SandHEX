@@ -1,5 +1,5 @@
 SandHEX.GridController = Ember.ArrayController.extend({
-	needs: ['hex', 'map', 'cube'],
+	needs: ['tiles', 'hex', 'map', 'cube'],
 
 	createLayer: function() {
 		this.Layer = L.geoJson([], {
@@ -31,14 +31,23 @@ SandHEX.GridController = Ember.ArrayController.extend({
 		var height = Math.sqrt(3)/2 * width;
 		var horiz = 3/4 * width;
 		var vert = height;
+
 		for (var i = 0; i < hexCoords.length; i++) {
-			if (hexCoords[i]['q'] % 2 != 0) {
+			var q = hexCoords[i]['q'];
+			var r = hexCoords[i]['r'];
+
+			var x = q;
+			var y = r;
+			var z = r - (q + (q&1)) / 2;
+
+			if (q % 2 != 0) {
 				var offset = 1/2 * vert;
 			} else {
 				var offset = 0;
 			}
-			var lat = hexCoords[i]['q'] * horiz;
-			var lon = (hexCoords[i]['r'] * vert) + offset;
+
+			var lat = x * horiz;
+			var lon = (z * vert) + offset;
 			var array = {
 				'id': hexCoords[i]['id'],
 				'lat': lat,
@@ -46,15 +55,22 @@ SandHEX.GridController = Ember.ArrayController.extend({
 			};
 			mapCoords.push(array);
 		}
+
 		return mapCoords;
 	},
 
-	hexCoordsToCube: function(hexCoords) {
+	hexCoordsToCube: function(q, r) {
 		return this.get('controllers.cube').new(
-			hexCoords['q'],
-			-hexCoords['r'] - hexCoords['q'],
-			hexCoords['r']
+			q, -r-q, r
 		);
+	},
+
+	popUp: function (feature, layer) {
+		var popupContent;
+		if (feature.properties.id) {
+			popupContent = feature.properties.id;
+		}
+		layer.bindPopup(popupContent);
 	}
 
 });

@@ -28,24 +28,24 @@ SandHEX.Tile.FIXTURES = [
 		terrain: 'river',
 		isVisited: true,
 		isExplored: false,
-		q: 0,
-		r: -1
+		q: -2,
+		r: 0
 	},
 	{
 		id: 4,
 		terrain: 'river',
 		isVisited: true,
 		isExplored: false,
-		q: 1,
-		r: -1
+		q: -3,
+		r: 0
 	},
 	{
 		id: 5,
 		terrain: 'mountain',
 		isVisited: false,
 		isExplored: false,
-		q: 1,
-		r: 0
+		q: 0,
+		r: 1
 	},
 	{
 		id: 6,
@@ -53,14 +53,14 @@ SandHEX.Tile.FIXTURES = [
 		isVisited: false,
 		isExplored: false,
 		q: 0,
-		r: 1
+		r: 2
 	},
 	{
 		id: 7,
 		terrain: 'hills',
 		isVisited: false,
 		isExplored: false,
-		q: -1,
-		r: 1
+		q: 0,
+		r: 3
 	}
 ];
