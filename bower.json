@@ -7,7 +7,8 @@
     "jquery": "~1.10.2",
     "ember": ">=1.5.0",
     "ember-data": "~1.0.0-beta.7",
-    "leaflet-dist": "~0.7.2"
+    "leaflet-dist": "~0.7.2",
+    "ember-localstorage-adapter": "~0.2.0"
   },
   "devDependencies": {}
 }

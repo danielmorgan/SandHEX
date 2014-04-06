@@ -5,7 +5,7 @@ SandHEX.GridController = Ember.ObjectController.extend({
 		this.Layer = L.geoJson([], {
 			style: {
 				fillColor: "#fff",
-				fillOpacity: 0.25,
+				fillOpacity: 1,
 				color: '#444',
 				weight: 2,
 				opacity: 1
@@ -14,46 +14,37 @@ SandHEX.GridController = Ember.ObjectController.extend({
 		}).addTo(this.get('controllers.map.Map'));
 	},
 
-	addTilesToGrid: function(mapCoords) {
-		var newTiles = [];
-		for (var i = 0; i < mapCoords.length; i++) {
-			newTiles.push(this.get('controllers.hex').drawHex(
-				[mapCoords[i]['lat'], mapCoords[i]['lon']],
-				mapCoords[i]['id']
-			));
-		}
-		this.Layer.addData(newTiles);
+	addTileToGrid: function(tile) {
+		var newTile = this.get('controllers.hex').drawHex(
+			[tile['lat'], tile['lng']],
+			tile['id']
+		);
+		this.Layer.addData(newTile);
 	},
 
-	hexCoordsToMapCoords: function(hexCoords) {
-		var mapCoords = [];
+	hexCoordToMapCoord: function(q, r, id) {
 		var width = this.get('controllers.hex.hexSize') * 2;
 		var height = Math.sqrt(3)/2 * width;
 		var horiz = 3/4 * width;
 		var vert = height;
 
-		for (var i = 0; i < hexCoords.length; i++) {
-			var q = hexCoords[i]['q'];
-			var r = hexCoords[i]['r'];
-			var cubeCoords = this.hexCoordsToCube(q,r);
-
-			if (q % 2 != 0) {
-				var offset = 1/2 * vert;
-			} else {
-				var offset = 0;
-			}
-
-			var lat = cubeCoords['x'] * horiz;
-			var lon = (cubeCoords['z'] * vert) + offset;
-			var array = {
-				'id': hexCoords[i]['id'],
-				'lat': lat,
-				'lon': lon
-			};
-			mapCoords.push(array);
+		if (q % 2 != 0) {
+			var offset = 1/2 * vert;
+		} else {
+			var offset = 0;
 		}
 
-		return mapCoords;
+		var x = q;
+		var y = r;
+		var z = r - (q + (q&1)) / 2;
+
+		var lat = x * horiz;
+		var lng = (z * vert) + offset;
+		return {
+			'id': id,
+			'lat': lat,
+			'lng': lng
+		};
 	},
 
 	hexCoordsToCube: function(q, r) {
