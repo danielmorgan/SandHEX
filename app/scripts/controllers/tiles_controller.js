@@ -18,18 +18,21 @@ SandHEX.TilesController = Ember.ArrayController.extend({
 		}
 	},
 
-	newTile: function(hexCoord) {
-		var tile = this.store.createRecord('tile', {
-			terrain: 'forest',
-			is_visible: false,
-			is_visited: false,
-			is_explored: false,
-			q: hexCoord[0],
-			r: hexCoord[1]
-		});
-		tile.save();
-		var mapCoord = this.get('controllers.grid').hexCoordToMapCoord(hexCoord[0], hexCoord[1], tile['id']);
-		this.get('controllers.grid').addTileToGrid(mapCoord);
+	newTile: function(q, r) {
+		if (!this.tileExistsAt(q, r)) {
+			var tile = this.store.createRecord('tile', {
+				terrain: 'forest',
+				is_visible: false,
+				is_visited: false,
+				is_explored: false,
+				q: q,
+				r: r
+			});
+			tile.save();
+			var mapCoord = this.get('controllers.grid').hexCoordToMapCoord(q, r, tile['id']);
+			this.get('controllers.grid').addTileToGrid(mapCoord);
+			return tile;
+		}
 	},
 
 	tileExistsAt: function(q, r) {

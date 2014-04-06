@@ -5,7 +5,7 @@ SandHEX.GridController = Ember.ObjectController.extend({
 		this.Layer = L.geoJson([], {
 			style: {
 				fillColor: "#fff",
-				fillOpacity: 1,
+				fillOpacity: 0,
 				color: '#444',
 				weight: 2,
 				opacity: 1
@@ -41,9 +41,9 @@ SandHEX.GridController = Ember.ObjectController.extend({
 		var lat = x * horiz;
 		var lng = (z * vert) + offset;
 		return {
-			'id': id,
 			'lat': lat,
-			'lng': lng
+			'lng': lng,
+			'id': id
 		};
 	},
 

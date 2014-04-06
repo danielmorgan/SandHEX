@@ -2,6 +2,10 @@ SandHEX.PlayerController = Ember.ObjectController.extend({
 	needs: ['tiles', 'grid', 'map'],
 
 	playerLocation: [0,0],
+	directions: [
+		[-1,0], [0,1], [1,1],
+		[-1,-1], [0,-1], [1,0]
+	],
 
 	actions: {
 		moveNW: function() { this.move(-1,0); },
@@ -17,21 +21,27 @@ SandHEX.PlayerController = Ember.ObjectController.extend({
 		this.playerMarker = new L.marker([playerLocationOnMap['lng'], playerLocationOnMap['lat']]);
 		this.get('controllers.map.Map').addLayer(this.playerMarker);
 
-		if (!this.get('controllers.tiles').tileExistsAt(this.playerLocation[0], this.playerLocation[1])) {
-			this.get('controllers.tiles').newTile(this.playerLocation);
-		}
+		this.scout(this.playerLocation[0], this.playerLocation[1]);
 	},
 
 	move: function(q, r) {
-		new_q = this.playerLocation[0] + q;
-		new_r = this.playerLocation[1] + r;
-		this.playerLocation = [new_q, new_r];
+		this.playerLocation[0] = this.playerLocation[0] + q;
+		this.playerLocation[1] = this.playerLocation[1] + r;
 
-		var playerLocationOnMap = this.get('controllers.grid').hexCoordToMapCoord(new_q, new_r);
+		this.scout(this.playerLocation[0], this.playerLocation[1]);
+
+		var playerLocationOnMap = this.get('controllers.grid').hexCoordToMapCoord(this.playerLocation[0], this.playerLocation[1]);
 		this.playerMarker.setLatLng([playerLocationOnMap['lng'], playerLocationOnMap['lat']]);
 
-		if (!this.get('controllers.tiles').tileExistsAt(new_q, new_r)) {
-			this.get('controllers.tiles').newTile([new_q, new_r]);
+	},
+
+	scout: function(q, r) {
+		this.get('controllers.tiles').newTile(q, r);
+
+		for (i = 0; i < this.directions.length; i++) {
+			var adjacent_q = (this.directions[i][0]) + q;
+			var adjacent_r = (this.directions[i][1]) + r;
+			this.get('controllers.tiles').newTile(adjacent_q, adjacent_r);
 		}
 	}
 
