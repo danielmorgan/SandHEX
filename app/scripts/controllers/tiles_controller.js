@@ -10,11 +10,11 @@ SandHEX.TilesController = Ember.ArrayController.extend({
 			this.loadParty();
 		},
 		moveNW: function() { this.move(-1,0); },
+		moveSE: function() { this.move(1,0); },
 		moveN: function() { this.move(0,1); },
-		moveNE: function() { this.move(1,0); },
-		moveSW: function() { this.move(-1,-1); },
 		moveS: function() { this.move(0,-1); },
-		moveSE: function() { this.move(1,-1); }
+		moveNE: function() { this.move(1,1); },
+		moveSW: function() { this.move(-1,-1); }
 	},
 
 	loadParty: function() {

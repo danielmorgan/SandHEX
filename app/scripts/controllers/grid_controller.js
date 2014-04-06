@@ -35,10 +35,7 @@ SandHEX.GridController = Ember.ArrayController.extend({
 		for (var i = 0; i < hexCoords.length; i++) {
 			var q = hexCoords[i]['q'];
 			var r = hexCoords[i]['r'];
-
-			var x = q;
-			var y = r;
-			var z = r - (q + (q&1)) / 2;
+			var cubeCoords = this.hexCoordsToCube(q,r);
 
 			if (q % 2 != 0) {
 				var offset = 1/2 * vert;
@@ -46,8 +43,8 @@ SandHEX.GridController = Ember.ArrayController.extend({
 				var offset = 0;
 			}
 
-			var lat = x * horiz;
-			var lon = (z * vert) + offset;
+			var lat = cubeCoords['x'] * horiz;
+			var lon = (cubeCoords['z'] * vert) + offset;
 			var array = {
 				'id': hexCoords[i]['id'],
 				'lat': lat,
@@ -60,9 +57,11 @@ SandHEX.GridController = Ember.ArrayController.extend({
 	},
 
 	hexCoordsToCube: function(q, r) {
-		return this.get('controllers.cube').new(
-			q, -r-q, r
-		);
+		return {
+			'x': q,
+			'y': r,
+			'z': r - (q + (q&1)) / 2
+		}
 	},
 
 	popUp: function (feature, layer) {
