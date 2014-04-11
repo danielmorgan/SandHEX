@@ -1,6 +1,53 @@
 SandHEX.GridController = Ember.ObjectController.extend({
 	needs: ['tiles', 'hex', 'map'],
 
+	createGrid: function() {
+		var _this = this;
+
+		this.grid = L.geoJson([], {
+			style: {
+				fillColor: "#fff",
+				fillOpacity: 0.25,
+				color: '#444',
+				weight: 2,
+				opacity: 1
+			},
+			onEachFeature: onEachFeature
+		}).addTo(this.get('controllers.map.map'));
+
+		function onEachFeature(feature, layer) {
+			layer.on({
+				mouseover: highlightTile,
+				mouseout: resetHighlight,
+				click: selectTile
+			});
+		}
+		function highlightTile(e) {
+			var layer = e.target;
+			var id = layer.feature.properties.id;
+			layer.setStyle({
+				fillOpacity: 1
+			});
+			if (!L.Browser.ie && !L.Browser.opera) {
+				layer.bringToFront();
+			}
+			$('#'+id).addClass('highlighted');
+		}
+		function resetHighlight(e) {
+			var layer = e.target;
+			var id = layer.feature.properties.id;
+			layer.setStyle({
+				fillOpacity: 0
+			});
+			$('#'+id).removeClass('highlighted');
+		}
+		function selectTile(e) {
+			var layer = e.target;
+			var id = layer.feature.properties.id;
+			_this.transitionToRoute('tile', { id: id });
+		}
+	},
+
 	hexCoordToMapCoord: function(q, r, id) {
 		var width = this.get('controllers.hex.hexSize') * 2;
 		var height = Math.sqrt(3)/2 * width;
@@ -24,47 +71,6 @@ SandHEX.GridController = Ember.ObjectController.extend({
 			'lng': lng,
 			'id': id
 		};
-	},
-
-	createGrid: function() {
-		this.grid = L.geoJson([], {
-			style: {
-				fillColor: "#fff",
-				fillOpacity: 0,
-				color: '#444',
-				weight: 2,
-				opacity: 1
-			},
-			onEachFeature: function(feature, layer) {
-				layer.on({
-					mouseover: highlightTile,
-					mouseout: resetHighlight
-				});
-			}
-		}).addTo(this.get('controllers.map.map'));
-
-		highlightTile = function(e) {
-			var layer = e.target;
-			var feature = layer.feature;
-			var id = feature.properties.id;
-			layer.setStyle({
-				fillOpacity: 1
-			});
-			if (!L.Browser.ie && !L.Browser.opera) {
-				layer.bringToFront();
-			}
-			$('#'+id).addClass('highlighted');
-		}
-		resetHighlight = function(e) {
-			var layer = e.target;
-			var feature = layer.feature;
-			var id = feature.properties.id;
-			layer.setStyle({
-				fillOpacity: 0
-			});
-			$('#'+id).removeClass('highlighted');
-		}
-
 	},
 
 	addTileToGrid: function(tile) {

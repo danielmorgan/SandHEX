@@ -1,7 +1,7 @@
 SandHEX.TilesController = Ember.ArrayController.extend({
 	sortProperties: ['q', 'r'],
 	sortAscending: true,
-	needs: ['hex', 'grid', 'map', 'player'],
+	needs: ['hex', 'grid', 'map', 'party'],
 
 	loadTilesFromStore: function() {
 		var tiles = this.store.all('tile');

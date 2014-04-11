@@ -88,17 +88,17 @@
 
 				<div class="row-fluid fill">
 					<div class="col-sm-8 fill affix nopadding class="value"ing" data-spy="affix">
-						{{outlet main}}
+						{{view SandHEX.MapView}}
 					</div>
 					<div id="sidebar" class="col-sm-4 col-sm-offset-8 fill">
 						<div id="tempControls">
-							<button class="btn btn-primary" {{action moveNW target="controllers.player"}}><i class="icon-arrow-up-left"></i></button>
-							<button class="btn btn-primary" {{action moveN target="controllers.player"}}><i class="icon-arrow-up"></i></button>
-							<button class="btn btn-primary" {{action moveNE target="controllers.player"}}><i class="icon-arrow-up-right"></i></button>
+							<button class="btn btn-primary" {{action moveNW target="controllers.party"}}><i class="icon-arrow-up-left"></i></button>
+							<button class="btn btn-primary" {{action moveN target="controllers.party"}}><i class="icon-arrow-up"></i></button>
+							<button class="btn btn-primary" {{action moveNE target="controllers.party"}}><i class="icon-arrow-up-right"></i></button>
 							<br /><!-- gasp! -->
-							<button class="btn btn-primary" {{action moveSW target="controllers.player"}}><i class="icon-arrow-down-left"></i></button>
-							<button class="btn btn-primary" {{action moveS target="controllers.player"}}><i class="icon-arrow-down"></i></button>
-							<button class="btn btn-primary" {{action moveSE target="controllers.player"}}><i class="icon-arrow-down-right"></i></button>
+							<button class="btn btn-primary" {{action moveSW target="controllers.party"}}><i class="icon-arrow-down-left"></i></button>
+							<button class="btn btn-primary" {{action moveS target="controllers.party"}}><i class="icon-arrow-down"></i></button>
+							<button class="btn btn-primary" {{action moveSE target="controllers.party"}}><i class="icon-arrow-down-right"></i></button>
 						</div>
 						{{outlet sidebar}}
 					</div>
@@ -110,30 +110,35 @@
 
 		<script type="text/x-handlebars" data-template-name="tiles">
 			{{#each}}
-				<table {{bind-attr id="id"}} class="panel tile">
-					<tr><td class="key">ID</td><td class="value">{{id}}</td></tr>
-					<tr><td class="key">Terrain</td><td class="value">{{terrain}}</td></tr>
-					<tr><td class="key">Visited?</td><td class="value">{{is_visited}}</td></tr>
-					<tr><td class="key">Explored?</td><td class="value">{{is_explored}}</td></tr>
-					<tr><td class="key">Coords</td><td class="value">{{q}},{{r}}</td></tr>
-				</table>
+				{{#link-to 'tile' id}}
+					<table {{bind-attr id="id"}} class="panel tile">
+						<tr><td class="key">ID</td><td class="value">{{id}}</td></tr>
+						<tr><td class="key">Terrain</td><td class="value">{{terrain}}</td></tr>
+						<tr><td class="key">Visited?</td><td class="value">{{is_visited}}</td></tr>
+						<tr><td class="key">Explored?</td><td class="value">{{is_explored}}</td></tr>
+						<tr><td class="key">Coords</td><td class="value">{{q}},{{r}}</td></tr>
+					</table>
+				{{/link-to}}
 			{{else}}
 				<p>No Tiles found.</p>
 			{{/each}}
 		</script>
 
 		<script type="text/x-handlebars" data-template-name="tile">
-			<table {{bind-attr id="id"}} class="panel tile">
-				<tr><td class="key">ID</td><td class="value">{{id}}</td></tr>
-				<tr><td class="key">Terrain</td><td class="value">{{terrain}}</td></tr>
-				<tr><td class="key">Visited?</td><td class="value">{{is_visited}}</td></tr>
-				<tr><td class="key">Explored?</td><td class="value">{{is_explored}}</td></tr>
-				<tr><td class="key">Coords</td><td class="value">{{q}},{{r}}</td></tr>
+			{{#link-to 'tiles'}}&larr; Back to All Tiles{{/link-to}}
+			<div {{bind-attr id="id"}} class="tile">
+				<dl>
+					<dt class="key">ID</dt><dd class="value">{{id}}</dd>
+					<dt class="key">Terrain</dt><dd class="value">{{terrain}}</dd>
+					<dt class="key">Visited?</dt><dd class="value">{{is_visited}}</dd>
+					<dt class="key">Explored?</dt><dd class="value">{{is_explored}}</dd>
+					<dt class="key">Coords</dt><dt class="value">{{q}},{{r}}</dd>
+				</dl>
 			</table>
 		</script>
 
 		<script type="text/x-handlebars" data-template-name="map">
-			<div id="map"></div>
+			<div id="map" class="fill"></div>
 		</script>
 
 		<!-- build:js scripts/vendor.js -->
@@ -174,7 +179,7 @@
 		<script src="scripts/controllers/tiles_controller.js"></script>
 		<script src="scripts/controllers/grid_controller.js"></script>
 		<script src="scripts/controllers/hex_controller.js"></script>
-		<script src="scripts/controllers/player_controller.js"></script>
+		<script src="scripts/controllers/party_controller.js"></script>
 		<script src="scripts/views/application_view.js"></script>
 		<script src="scripts/views/map_view.js"></script>
 		<script src="scripts/views/tiles_view.js"></script>
