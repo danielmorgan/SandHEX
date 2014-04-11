@@ -34,20 +34,67 @@ nav.navbar-default {
 	padding: 0;
 }
 
-table {
+table.tile {
 	font-size: 12px;
 	float: left;
 	margin: 5px;
 	padding: 5px;
 	background: #ddd;
+	cursor: pointer;
+	&.highlighted {
+		background: $brand-warning;
+	}
+	td {
+		padding: 0 5px;
+		min-width: 60px;
+	}
+	td.key { font-weight: bold; }
+	td.value { text-align: right; }
 }
-
-td {
-	padding: 0 5px;
-	min-width: 60px;
-}
-
-td.key { font-weight: bold; }
-td.value { text-align: right; }
 
 #tempControls { text-align: center; padding: 20px 0; }
+
+
+$hexWidth: 50px;
+$hexHeight: sqrt(3)*$hexWidth;
+$hexColor: #53AC77;
+#hex-controller {
+	position: absolute;
+	z-index: 100;
+	bottom: 0px;
+	width: 100%;
+	.wrapper {
+		position: relative;
+		width: $hexWidth*2;
+		height: $hexHeight*2;
+		margin: 0 auto 0;
+		.hexagon {
+			position: relative;
+			float: left;
+			width: $hexWidth;
+			height: $hexHeight;
+			background-color: $hexColor;
+			&:before {
+				content: " ";
+				float: left;
+				width: 0; height: 0;
+				border-right: $hexWidth/2 solid $hexColor;
+				border-top: $hexHeight/2 solid transparent;
+				border-bottom: $hexHeight/2 solid transparent;
+				position: absolute;
+				left: -$hexWidth/2;
+			}
+			&:after {
+				content: "";
+				float: left;
+				width: 0;
+				border-left: $hexWidth/2 solid $hexColor;
+				border-top: $hexHeight/2 solid transparent;
+				border-bottom: $hexHeight/2 solid transparent;
+				position: absolute;
+				right: -$hexWidth/2;
+			}
+		}
+	}
+}
+

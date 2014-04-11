@@ -39,14 +39,14 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" href="#">SandHEX</a>
+						{{#link-to 'index' classNames="navbar-brand"}}SandHEX{{/link-to}}
 					</div>
 
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul class="nav navbar-nav">
-							<li>{{#link-to 'tiles'}}Map{{/link-to}}</li>
-							<li>{{#link-to 'about'}}About{{/link-to}}</li>
+							<li>{{#link-to 'index'}}Index{{/link-to}}</li>
+							<li>{{#link-to 'tiles'}}Tiles{{/link-to}}</li>
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
 								<ul class="dropdown-menu">
@@ -91,6 +91,15 @@
 						{{outlet main}}
 					</div>
 					<div id="sidebar" class="col-sm-4 col-sm-offset-8 fill">
+						<div id="tempControls">
+							<button class="btn btn-primary" {{action moveNW target="controllers.player"}}><i class="icon-arrow-up-left"></i></button>
+							<button class="btn btn-primary" {{action moveN target="controllers.player"}}><i class="icon-arrow-up"></i></button>
+							<button class="btn btn-primary" {{action moveNE target="controllers.player"}}><i class="icon-arrow-up-right"></i></button>
+							<br /><!-- gasp! -->
+							<button class="btn btn-primary" {{action moveSW target="controllers.player"}}><i class="icon-arrow-down-left"></i></button>
+							<button class="btn btn-primary" {{action moveS target="controllers.player"}}><i class="icon-arrow-down"></i></button>
+							<button class="btn btn-primary" {{action moveSE target="controllers.player"}}><i class="icon-arrow-down-right"></i></button>
+						</div>
 						{{outlet sidebar}}
 					</div>
 				</div>
@@ -100,18 +109,8 @@
 		</script>
 
 		<script type="text/x-handlebars" data-template-name="tiles">
-			<div id="tempControls">
-				<button class="btn btn-primary btn-lg" {{action moveNW target="controllers.player"}}><i class="icon-arrow-up-left"></i></button>
-				<button class="btn btn-primary btn-lg" {{action moveN target="controllers.player"}}><i class="icon-arrow-up"></i></button>
-				<button class="btn btn-primary btn-lg" {{action moveNE target="controllers.player"}}><i class="icon-arrow-up-right"></i></button>
-				<br /><!-- gasp! -->
-				<button class="btn btn-primary btn-lg" {{action moveSW target="controllers.player"}}><i class="icon-arrow-down-left"></i></button>
-				<button class="btn btn-primary btn-lg" {{action moveS target="controllers.player"}}><i class="icon-arrow-down"></i></button>
-				<button class="btn btn-primary btn-lg" {{action moveSE target="controllers.player"}}><i class="icon-arrow-down-right"></i></button>
-			</div>
-
 			{{#each}}
-				<table class="panel">
+				<table {{bind-attr id="id"}} class="panel tile">
 					<tr><td class="key">ID</td><td class="value">{{id}}</td></tr>
 					<tr><td class="key">Terrain</td><td class="value">{{terrain}}</td></tr>
 					<tr><td class="key">Visited?</td><td class="value">{{is_visited}}</td></tr>
@@ -121,6 +120,16 @@
 			{{else}}
 				<p>No Tiles found.</p>
 			{{/each}}
+		</script>
+
+		<script type="text/x-handlebars" data-template-name="tile">
+			<table {{bind-attr id="id"}} class="panel tile">
+				<tr><td class="key">ID</td><td class="value">{{id}}</td></tr>
+				<tr><td class="key">Terrain</td><td class="value">{{terrain}}</td></tr>
+				<tr><td class="key">Visited?</td><td class="value">{{is_visited}}</td></tr>
+				<tr><td class="key">Explored?</td><td class="value">{{is_explored}}</td></tr>
+				<tr><td class="key">Coords</td><td class="value">{{q}},{{r}}</td></tr>
+			</table>
 		</script>
 
 		<script type="text/x-handlebars" data-template-name="map">
@@ -160,13 +169,16 @@
 		<script src="scripts/app.js"></script>
 		<script src="scripts/router.js"></script>
 		<script src="scripts/models/tile.js"></script>
+		<script src="scripts/controllers/application_controller.js"></script>
 		<script src="scripts/controllers/map_controller.js"></script>
 		<script src="scripts/controllers/tiles_controller.js"></script>
 		<script src="scripts/controllers/grid_controller.js"></script>
 		<script src="scripts/controllers/hex_controller.js"></script>
 		<script src="scripts/controllers/player_controller.js"></script>
+		<script src="scripts/views/application_view.js"></script>
 		<script src="scripts/views/map_view.js"></script>
 		<script src="scripts/views/tiles_view.js"></script>
+		<script src="scripts/views/tile_view.js"></script>
 		<!-- endbuild -->
 </body>
 </html>

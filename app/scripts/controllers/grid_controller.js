@@ -45,22 +45,25 @@ SandHEX.GridController = Ember.ObjectController.extend({
 
 		highlightTile = function(e) {
 			var layer = e.target;
-			var feature = e.target.feature;
+			var feature = layer.feature;
+			var id = feature.properties.id;
 			layer.setStyle({
 				fillOpacity: 1
 			});
 			if (!L.Browser.ie && !L.Browser.opera) {
 				layer.bringToFront();
 			}
-			console.log(feature.properties.id);
-		};
+			$('#'+id).addClass('highlighted');
+		}
 		resetHighlight = function(e) {
 			var layer = e.target;
-			var feature = e.target.feature;
+			var feature = layer.feature;
+			var id = feature.properties.id;
 			layer.setStyle({
 				fillOpacity: 0
 			});
-		};
+			$('#'+id).removeClass('highlighted');
+		}
 
 	},
 

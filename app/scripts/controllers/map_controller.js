@@ -1,12 +1,6 @@
 SandHEX.MapController = Ember.ObjectController.extend({
 	zoomLevel: 5,
 
-	actions: {
-		insertMap: function() {
-			this.createMap();
-		}
-	},
-
 	createMap: function() {
 		this.map = L.map('map', {
 			center: [0,0],
