@@ -6,7 +6,7 @@ SandHEX.GridController = Ember.ObjectController.extend({
 
 		this.grid = L.geoJson([], {
 			style: {
-				fillColor: "#fff",
+				fillColor: "#92EC2D",
 				fillOpacity: 0.25,
 				color: '#444',
 				weight: 2,
@@ -37,14 +37,14 @@ SandHEX.GridController = Ember.ObjectController.extend({
 			var layer = e.target;
 			var id = layer.feature.properties.id;
 			layer.setStyle({
-				fillOpacity: 0
+				fillOpacity: 0.25
 			});
 			$('#'+id).removeClass('highlighted');
 		}
 		function selectTile(e) {
 			var layer = e.target;
 			var id = layer.feature.properties.id;
-			_this.transitionToRoute('tile', { id: id });
+			_this.transitionToRoute('tile', id);
 		}
 	},
 
