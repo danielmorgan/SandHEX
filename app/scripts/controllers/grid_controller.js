@@ -4,9 +4,6 @@ SandHEX.GridController = Ember.ObjectController.extend(Ember.TargetActionSupport
 		default: {
 			fillOpacity: 0.25
 		},
-		highlighted: {
-			fillOpacity: 0.5
-		},
 		selected: {
 			fillOpacity: 1
 		}
@@ -27,30 +24,11 @@ SandHEX.GridController = Ember.ObjectController.extend(Ember.TargetActionSupport
 		}).addTo(this.get('controllers.map.map'));
 
 		function onEachFeature(feature, layer) {
-			layer.on({
-				mouseover: highlightTile,
-				mouseout: resetHighlight,
-				click: selectTile
-			});
-		}
-		function highlightTile(e) {
-			var layer = e.target;
-			var id = layer.feature.properties.id;
-			layer.setStyle(_this.style.highlighted);
-			if (!L.Browser.ie && !L.Browser.opera) {
-				layer.bringToFront();
-			}
-			$('#'+id).addClass('highlighted');
-		}
-		function resetHighlight(e) {
-			var layer = e.target;
-			var id = layer.feature.properties.id;
-			layer.setStyle(_this.style.default);
-			$('#'+id).removeClass('highlighted');
+			layer.on({ click: selectTile });
 		}
 		function selectTile(e) {
-			var layer = e.target;
-			var id = layer.feature.properties.id;
+			var id = e.target.feature.properties.id;
+			_this.unhighlightHexes();
 			_this.transitionToRoute('tile', id);
 			_this.highlightSelectedHex(id);
 		}
@@ -65,12 +43,10 @@ SandHEX.GridController = Ember.ObjectController.extend(Ember.TargetActionSupport
 		});
 	},
 
-	unhighlightHex: function(id) {
+	unhighlightHexes: function() {
 		var _this = this;
 		this.grid.eachLayer(function(layer) {
-			if (layer.feature.properties.id == id) {
-				layer.setStyle(_this.style.default);
-			}
+			layer.setStyle(_this.style.default);
 		});
 	},
 

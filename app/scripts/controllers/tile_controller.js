@@ -5,8 +5,8 @@ SandHEX.TileController = Ember.ObjectController.extend(Ember.TargetActionSupport
 		highlightSelectedHex: function(id) {
 			this.get('controllers.grid').highlightSelectedHex(id);
 		},
-		unhighlightHex: function(id) {
-			this.get('controllers.grid').unhighlightHex(id);
+		unhighlightHexes: function() {
+			this.get('controllers.grid').unhighlightHexes();
 		}
 	}
 
