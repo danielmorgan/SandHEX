@@ -1,5 +1,16 @@
-SandHEX.GridController = Ember.ObjectController.extend({
-	needs: ['tiles', 'hex', 'map'],
+SandHEX.GridController = Ember.ObjectController.extend(Ember.TargetActionSupport, {
+	needs: ['tiles', 'tile', 'hex', 'map'],
+	style: {
+		default: {
+			fillOpacity: 0.25
+		},
+		highlighted: {
+			fillOpacity: 0.5
+		},
+		selected: {
+			fillOpacity: 1
+		}
+	},
 
 	createGrid: function() {
 		var _this = this;
@@ -25,9 +36,7 @@ SandHEX.GridController = Ember.ObjectController.extend({
 		function highlightTile(e) {
 			var layer = e.target;
 			var id = layer.feature.properties.id;
-			layer.setStyle({
-				fillOpacity: 1
-			});
+			layer.setStyle(_this.style.highlighted);
 			if (!L.Browser.ie && !L.Browser.opera) {
 				layer.bringToFront();
 			}
@@ -36,16 +45,33 @@ SandHEX.GridController = Ember.ObjectController.extend({
 		function resetHighlight(e) {
 			var layer = e.target;
 			var id = layer.feature.properties.id;
-			layer.setStyle({
-				fillOpacity: 0.25
-			});
+			layer.setStyle(_this.style.default);
 			$('#'+id).removeClass('highlighted');
 		}
 		function selectTile(e) {
 			var layer = e.target;
 			var id = layer.feature.properties.id;
 			_this.transitionToRoute('tile', id);
+			_this.highlightSelectedHex(id);
 		}
+	},
+
+	highlightSelectedHex: function(id) {
+		var _this = this;
+		this.grid.eachLayer(function(layer) {
+			if (layer.feature.properties.id == id) {
+				layer.setStyle(_this.style.selected);
+			}
+		});
+	},
+
+	unhighlightHex: function(id) {
+		var _this = this;
+		this.grid.eachLayer(function(layer) {
+			if (layer.feature.properties.id == id) {
+				layer.setStyle(_this.style.default);
+			}
+		});
 	},
 
 	hexCoordToMapCoord: function(q, r, id) {

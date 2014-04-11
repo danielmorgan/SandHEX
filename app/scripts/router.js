@@ -6,7 +6,7 @@ SandHEX.Router.map(function() {
 SandHEX.ApplicationRoute = Ember.Route.extend({
 	model: function(params) {
 		return this.store.find('tile');
-	},
+	}
 });
 
 SandHEX.TilesRoute = Ember.Route.extend({
@@ -15,7 +15,8 @@ SandHEX.TilesRoute = Ember.Route.extend({
 	},
 	renderTemplate: function() {
 		this.render('tiles', {
-			outlet: 'sidebar'
+			outlet: 'sidebar',
+			into: 'application'
 		});
 	}
 });
@@ -23,11 +24,28 @@ SandHEX.TilesRoute = Ember.Route.extend({
 
 SandHEX.TileRoute = Ember.Route.extend({
 	model: function(params) {
-		return this.store.find('tile', params.tile_id);
+		return this.store.find('tile', params.tile_id).then(function(modelData) {
+			return modelData;
+		});
+	},
+	setupController: function(controller, model) {
+		controller.set("model", model);
 	},
 	renderTemplate: function() {
 		this.render('tile', {
-			outlet: 'sidebar'
+			outlet: 'sidebar',
+			into: 'application'
 		});
+	}
+});
+
+SandHEX.LoadingRoute = Ember.Route.extend({
+	activate: function(){
+		this._super();
+		console.log("loading...");
+	},
+	deactivate: function(){
+		this._super();
+		console.log("loaded!");
 	}
 });
