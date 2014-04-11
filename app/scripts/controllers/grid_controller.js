@@ -1,27 +1,6 @@
 SandHEX.GridController = Ember.ObjectController.extend({
 	needs: ['tiles', 'hex', 'map'],
 
-	createLayer: function() {
-		this.Layer = L.geoJson([], {
-			style: {
-				fillColor: "#fff",
-				fillOpacity: 0,
-				color: '#444',
-				weight: 2,
-				opacity: 1
-			},
-			onEachFeature: this.popUp
-		}).addTo(this.get('controllers.map.Map'));
-	},
-
-	addTileToGrid: function(tile) {
-		var newTile = this.get('controllers.hex').drawHex(
-			[tile['lat'], tile['lng']],
-			tile['id']
-		);
-		this.Layer.addData(newTile);
-	},
-
 	hexCoordToMapCoord: function(q, r, id) {
 		var width = this.get('controllers.hex.hexSize') * 2;
 		var height = Math.sqrt(3)/2 * width;
@@ -36,7 +15,7 @@ SandHEX.GridController = Ember.ObjectController.extend({
 
 		var x = q;
 		var y = r;
-		var z = r - (q + (q&1)) / 2;
+		var z = y - (x + (x&1)) / 2;
 
 		var lat = x * horiz;
 		var lng = (z * vert) + offset;
@@ -47,20 +26,50 @@ SandHEX.GridController = Ember.ObjectController.extend({
 		};
 	},
 
-	hexCoordsToCube: function(q, r) {
-		return {
-			'x': q,
-			'y': r,
-			'z': r - (q + (q&1)) / 2
-		}
+	createGrid: function() {
+		this.grid = L.geoJson([], {
+			style: {
+				fillColor: "#fff",
+				fillOpacity: 0,
+				color: '#444',
+				weight: 2,
+				opacity: 1
+			},
+			onEachFeature: function(feature, layer) {
+				layer.on({
+					mouseover: highlightTile,
+					mouseout: resetHighlight
+				});
+			}
+		}).addTo(this.get('controllers.map.map'));
+
+		highlightTile = function(e) {
+			var layer = e.target;
+			var feature = e.target.feature;
+			layer.setStyle({
+				fillOpacity: 1
+			});
+			if (!L.Browser.ie && !L.Browser.opera) {
+				layer.bringToFront();
+			}
+			console.log(feature.properties.id);
+		};
+		resetHighlight = function(e) {
+			var layer = e.target;
+			var feature = e.target.feature;
+			layer.setStyle({
+				fillOpacity: 0
+			});
+		};
+
 	},
 
-	popUp: function (feature, layer) {
-		var popupContent;
-		if (feature.properties.id) {
-			popupContent = feature.properties.id;
-		}
-		layer.bindPopup(popupContent);
+	addTileToGrid: function(tile) {
+		var newTile = this.get('controllers.hex').drawHex(
+			[tile['lat'], tile['lng']],
+			tile['id']
+		);
+		this.grid.addData(newTile);
 	}
 
 });

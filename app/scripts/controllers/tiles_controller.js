@@ -1,9 +1,11 @@
 SandHEX.TilesController = Ember.ArrayController.extend({
+	sortProperties: ['q', 'r'],
+	sortAscending: true,
 	needs: ['hex', 'grid', 'map', 'player'],
 
 	actions: {
 		onDidInsertElement: function() {
-			this.get('controllers.grid').createLayer();
+			this.get('controllers.grid').createGrid();
 			this.loadTilesFromStore();
 			this.get('controllers.player').loadPlayer();
 		}
@@ -22,7 +24,6 @@ SandHEX.TilesController = Ember.ArrayController.extend({
 		if (!this.tileExistsAt(q, r)) {
 			var tile = this.store.createRecord('tile', {
 				terrain: 'forest',
-				is_visible: false,
 				is_visited: false,
 				is_explored: false,
 				q: q,

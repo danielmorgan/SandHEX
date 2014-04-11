@@ -19,7 +19,7 @@ SandHEX.PlayerController = Ember.ObjectController.extend({
 	loadPlayer: function() {
 		var playerLocationOnMap = this.get('controllers.grid').hexCoordToMapCoord(this.playerLocation[0], this.playerLocation[1]);
 		this.playerMarker = new L.marker([playerLocationOnMap['lng'], playerLocationOnMap['lat']]);
-		this.get('controllers.map.Map').addLayer(this.playerMarker);
+		this.get('controllers.map.map').addLayer(this.playerMarker);
 
 		this.scout(this.playerLocation[0], this.playerLocation[1]);
 	},
@@ -32,7 +32,6 @@ SandHEX.PlayerController = Ember.ObjectController.extend({
 
 		var playerLocationOnMap = this.get('controllers.grid').hexCoordToMapCoord(this.playerLocation[0], this.playerLocation[1]);
 		this.playerMarker.setLatLng([playerLocationOnMap['lng'], playerLocationOnMap['lat']]);
-
 	},
 
 	scout: function(q, r) {

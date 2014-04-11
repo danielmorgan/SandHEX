@@ -8,7 +8,7 @@ SandHEX.MapController = Ember.ObjectController.extend({
 	},
 
 	createMap: function() {
-		this.Map = L.map('map', {
+		this.map = L.map('map', {
 			center: [0,0],
 			zoom: this.zoomLevel,
 			minZoom: 2,
