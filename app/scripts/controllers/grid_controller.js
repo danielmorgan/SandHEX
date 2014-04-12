@@ -28,7 +28,6 @@ SandHEX.GridController = Ember.ObjectController.extend(Ember.TargetActionSupport
 		}
 		function selectTile(e) {
 			var id = e.target.feature.properties.id;
-			_this.unhighlightHexes();
 			_this.transitionToRoute('tile', id);
 			_this.highlightSelectedHex(id);
 		}
@@ -36,6 +35,7 @@ SandHEX.GridController = Ember.ObjectController.extend(Ember.TargetActionSupport
 
 	highlightSelectedHex: function(id) {
 		var _this = this;
+		this.unhighlightHexes();
 		this.grid.eachLayer(function(layer) {
 			if (layer.feature.properties.id == id) {
 				layer.setStyle(_this.style.selected);

@@ -31,6 +31,15 @@ SandHEX.TilesController = Ember.ArrayController.extend({
 	tileExistsAt: function(q, r) {
 		var tilesAtPoint = this.store.all('tile').filterBy('q', q).filterBy('r', r);
 		if (tilesAtPoint['length'] > 0) { return true; } else {	return false; }
+	},
+
+	findTileAt: function(q, r) {
+		var tilesAtPoint = this.store.all('tile').filterBy('q', q).filterBy('r', r);
+		if (tilesAtPoint['length'] > 0) {
+			return tilesAtPoint;
+		} else {
+			return false;
+		}
 	}
 
 });

@@ -21,16 +21,7 @@ SandHEX.TilesRoute = Ember.Route.extend({
 	}
 });
 
-
 SandHEX.TileRoute = Ember.Route.extend({
-	model: function(params) {
-		return this.store.find('tile', params.tile_id).then(function(modelData) {
-			return modelData;
-		});
-	},
-	setupController: function(controller, model) {
-		controller.set("model", model);
-	},
 	renderTemplate: function() {
 		this.render('tile', {
 			outlet: 'sidebar',

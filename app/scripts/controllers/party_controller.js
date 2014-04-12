@@ -1,5 +1,6 @@
 SandHEX.PartyController = Ember.ObjectController.extend({
 	needs: ['tiles', 'grid', 'map'],
+	queryParams: ['tile:tile_id'],
 
 	partyLocation: [0,0],
 	directions: [
@@ -22,6 +23,7 @@ SandHEX.PartyController = Ember.ObjectController.extend({
 		this.get('controllers.map.map').addLayer(this.partyMarker);
 
 		this.scout(this.partyLocation[0], this.partyLocation[1]);
+		this.loadTile(this.partyLocation[0], this.partyLocation[1]);
 	},
 
 	move: function(q, r) {
@@ -32,6 +34,15 @@ SandHEX.PartyController = Ember.ObjectController.extend({
 
 		var partyLocationOnMap = this.get('controllers.grid').hexCoordToMapCoord(this.partyLocation[0], this.partyLocation[1]);
 		this.partyMarker.setLatLng([partyLocationOnMap['lng'], partyLocationOnMap['lat']]);
+
+		this.loadTile(this.partyLocation[0], this.partyLocation[1]);
+	},
+
+	loadTile: function(q, r) {
+		var data = this.get('controllers.tiles').findTileAt(q, r);
+		var id = data[0]['id'];
+		this.transitionToRoute('tile', id);
+		this.get('controllers.grid').highlightSelectedHex(id);
 	},
 
 	scout: function(q, r) {

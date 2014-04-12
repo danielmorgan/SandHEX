@@ -125,7 +125,7 @@
 		</script>
 
 		<script type="text/x-handlebars" data-template-name="tile">
-			{{#link-to 'tiles'}}&larr; Back to All Tiles{{/link-to}}
+			{{#link-to 'tiles' classNames='btn btn-default'}}&larr; Back to All Tiles{{/link-to}}
 			<div {{bind-attr id="id"}} class="tile">
 				<dl>
 					<dt class="key">ID</dt><dd class="value">{{id}}</dd>
@@ -135,6 +135,7 @@
 					<dt class="key">Coords</dt><dt class="value">{{q}},{{r}}</dd>
 				</dl>
 			</table>
+			<a href="#" class="btn btn-success"><i class="icon-map"></i> Explore</a>
 		</script>
 
 		<script type="text/x-handlebars" data-template-name="map">
