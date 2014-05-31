@@ -12,6 +12,13 @@ SandHEX.ApplicationRoute = Ember.Route.extend({
 		this.store.find('party').then(function(party) {
 			controller.set('party', party)
 		})
+	},
+	actions: {
+		error: function(reason, transition) {
+			if (reason.message == "Assertion Failed: You must include an `id` in a hash passed to `push`") {
+				this.transitionTo('/');
+			}
+		}
 	}
 });
 

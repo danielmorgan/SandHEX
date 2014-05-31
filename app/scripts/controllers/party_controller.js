@@ -28,7 +28,6 @@ SandHEX.PartyController = Ember.ObjectController.extend({
 		if (!this.partyExists()) {
 			this.party = this.store.push('party', { id: 0, q: 0, r: 0 });
 			this.party.save();
-			console.log("couldn't find the party, made a new one");
 		}
 
 		// Load the existing party if it does
@@ -36,7 +35,6 @@ SandHEX.PartyController = Ember.ObjectController.extend({
 			var records = this.store.all('party');
 			var ap = Ember.ArrayProxy.create({ content: Ember.A(records) });
 			this.party = ap.get('firstObject');
-			console.log("found the party");
 		}
 
 		// Add the marker to the map representing the party
@@ -50,14 +48,21 @@ SandHEX.PartyController = Ember.ObjectController.extend({
 	},
 
 	move: function(q, r) {
+		// Set the variables to new coords
 		this.party.set('q', this.party.get('q') + q);
 		this.party.set('r', this.party.get('r') + r);
 
+		// Persist new location
+		this.party.save();
+
+		// Reveal surrounding tiles of new location
 		this.scout(this.party.get('q'), this.party.get('r'));
 
+		// Convert to LatLng coordinates and place marker at new location
 		var partyLocationOnMap = this.get('controllers.grid').hexCoordToMapCoord(this.party.get('q'), this.party.get('r'));
 		this.partyMarker.setLatLng([partyLocationOnMap['lng'], partyLocationOnMap['lat']]);
 
+		// Load tile info in sidebar for party's destination
 		this.loadTileInSidebar(this.party.get('q'), this.party.get('r'));
 	},
 
