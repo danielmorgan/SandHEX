@@ -14,8 +14,10 @@ SandHEX.TilesController = Ember.ArrayController.extend({
 
 	newTile: function(q, r) {
 		if (!this.tileExistsAt(q, r)) {
+			var terrain = this.generateTerrain()
 			var tile = this.store.createRecord('tile', {
-				terrain: 'forest',
+				terrain: terrain.type,
+				color: terrain.color,
 				is_visited: false,
 				is_explored: false,
 				q: q,
@@ -39,6 +41,19 @@ SandHEX.TilesController = Ember.ArrayController.extend({
 			return tilesAtPoint;
 		} else {
 			return false;
+		}
+	},
+
+	generateTerrain: function() {
+		var rand = getRandomInt(0, generatorData.terrainType.length - 1);
+		var terrain = generatorData.terrainType[rand];
+		return {
+			type: terrain.type,
+			color: terrain.color,
+		};
+
+		function getRandomInt(min, max) {
+			return Math.floor(Math.random() * (max - min + 1)) + min;
 		}
 	}
 

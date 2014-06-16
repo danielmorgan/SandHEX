@@ -2,7 +2,7 @@ SandHEX.GridController = Ember.ObjectController.extend(Ember.TargetActionSupport
 	needs: ['tiles', 'tile', 'hex', 'map'],
 	style: {
 		default: {
-			fillOpacity: 0.25
+			fillOpacity: 0.5
 		},
 		selected: {
 			fillOpacity: 1
@@ -14,8 +14,8 @@ SandHEX.GridController = Ember.ObjectController.extend(Ember.TargetActionSupport
 
 		this.grid = L.geoJson([], {
 			style: {
-				fillColor: "#92EC2D",
-				fillOpacity: 0.25,
+				fillColor: "#fff",
+				fillOpacity: 0.5,
 				color: '#444',
 				weight: 2,
 				opacity: 1
@@ -25,12 +25,23 @@ SandHEX.GridController = Ember.ObjectController.extend(Ember.TargetActionSupport
 
 		function onEachFeature(feature, layer) {
 			layer.on({ click: selectTile });
+			_this.colorizeHexes();
 		}
 		function selectTile(e) {
 			var id = e.target.feature.properties.id;
 			_this.transitionToRoute('tile', id);
 			_this.highlightSelectedHex(id);
 		}
+	},
+
+	colorizeHexes: function() {
+		var _this = this;
+		this.grid.eachLayer(function(layer) {
+			_this.store.find('tile', layer.feature.properties.id ).then(function(tile) {
+				layer.setStyle({ fillColor: tile.get('color') });
+			});
+
+		});
 	},
 
 	highlightSelectedHex: function(id) {
